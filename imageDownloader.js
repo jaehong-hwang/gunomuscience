@@ -34,8 +34,10 @@ const imageDownloadBySearch = async (query, prefix = '') => {
 
   await page.waitForSelector('.tAcEof'); // 메뉴 로딩 대기
   await page.click('.PNyWAd.ZXJQ7c'); // 도구 클릭
-  await page.click('.DZjDQ'); // 크기 클릭
-  await page.click('.Ix6LGe a'); // 큼 클릭
+  if (await (await page.$('.DZjDQ')).innerText() === 'Size') {
+    await page.click('.DZjDQ'); // 크기 클릭
+    await page.click('.Ix6LGe a'); // 큼 클릭
+  }
 
   await page.waitForSelector('#islrg'); // 이미지 리스트 대기
 
@@ -69,14 +71,10 @@ const downloadImage = async (page, filename, offset) => {
   const imageLink = await findImageFromThumbnail(page);
   if (imageLink === false) return;
 
-  console.log(imageLink);
-  
   await download.image({
     url: imageLink,
     dest: './result/' + filename + '-' + offset + '.png'
   });
-
-  await page.goBack();
 };
 
 const findImageFromThumbnail = async (page) => {
