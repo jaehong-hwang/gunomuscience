@@ -7,15 +7,14 @@ let index = 1;
 (async () => {
   await initialBrowser();
 
-  let promises = [];
   for (const query of queries.split('\n')) {
     if (
       query.trim() === ''
       || query.trim()[0] === '#'
     ) continue;
-    promises.push(imageDownloadBySearch(query.trim(), (index++) + '. '));
+    
+    await imageDownloadBySearch(query.trim(), (index++) + '. ');
   }
-  await Promise.all(promises);
 
   await resetBrowser();
 })();
