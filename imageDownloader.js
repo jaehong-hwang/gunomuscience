@@ -69,7 +69,12 @@ const downloadImage = async (page, filename, offset) => {
   }
 
   const imageLink = await findImageFromThumbnail(page);
-  if (imageLink === false) return;
+  if (imageLink === false) {
+    console.error('not found image. filename is ' + filename)
+    return;
+  }
+
+  console.log(imageLink)
 
   await download.image({
     url: imageLink,
@@ -83,13 +88,13 @@ const findImageFromThumbnail = async (page) => {
   let repeat = 0;
 
   while (true) {
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(300);
     for (const imageHandler of imageHandlers) {
       imageLink = await imageHandler.getAttribute('src');
       if (imageLink.split(':')[0] !== 'data') return imageLink
     }
 
-    if (++repeat === 100) return false;
+    if (++repeat === 10) return false;
   }
 };
 
