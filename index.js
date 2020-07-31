@@ -14,8 +14,13 @@ const main = async (queries) => {
 }
 
 try {
-  const queries = fs.readFileSync('./keywords.parsed', 'utf8')
-  main(queries.split('\n'))
+  const queries = fs.readFileSync('./keywords.parsed', 'utf8').split('\n')
+
+  const removedComentQueries = queries.map(v => {
+    return v.replace(/#.+$/, '').trim()
+  })
+
+  main(removedComentQueries)
 } catch (error) {
   console.error('parse 명령어를 먼저 수행해주세요.')
 }
