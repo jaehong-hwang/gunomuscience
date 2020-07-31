@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "image-downloader": "^4.0.1",
-    "playwright": "^1.2.1"
+    "playwright": "^1.2.1",
+    "shell-quote": "^1.7.2"
   }
 }

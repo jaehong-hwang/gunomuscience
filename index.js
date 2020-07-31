@@ -1,20 +1,19 @@
-const fs = require('fs');
-const { initialBrowser, resetBrowser, imageDownloadBySearch } = require('./imageDownloader');
+const fs = require('fs')
+const keywords = require('./keywords.js')
+const { initialBrowser, resetBrowser, imageDownloadBySearch } = require('./imageDownloader')
 
-const queries = fs.readFileSync('./keywords', 'utf8');
-let index = 1;
+const queries = keywords.parse(fs.readFileSync('./keywords', 'utf8'))
 
-(async () => {
-  await initialBrowser();
+const main = async () => {
+  let index = 1
 
-  for (const query of queries.split('\n')) {
-    if (
-      query.trim() === ''
-      || query.trim()[0] === '#'
-    ) continue;
-    
-    await imageDownloadBySearch(query.trim(), (index++) + '. ');
+  await initialBrowser()
+
+  for (const query of queries) {
+    await imageDownloadBySearch(query.trim(), (index++) + '. ')
   }
 
-  await resetBrowser();
-})();
+  await resetBrowser()
+}
+
+main()
