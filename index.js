@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { initialBrowser, resetBrowser, imageDownloadBySearch } = require('./imageDownloader').default;
+const { initialBrowser, resetBrowser, imageDownloadBySearch } = require('./imageDownloader');
 
 const queries = fs.readFileSync('./keywords', 'utf8');
 let index = 1;

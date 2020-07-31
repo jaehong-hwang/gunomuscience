@@ -93,7 +93,7 @@ const findImageFromThumbnail = async (page) => {
   }
 };
 
-exports.default = {
+module.exports = {
   initialBrowser,
   resetBrowser,
   imageDownloadBySearch
