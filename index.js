@@ -1,10 +1,7 @@
 const fs = require('fs')
-const keywords = require('./keywords.js')
 const { initialBrowser, resetBrowser, imageDownloadBySearch } = require('./imageDownloader')
 
-const queries = keywords.parse(fs.readFileSync('./keywords', 'utf8'))
-
-const main = async () => {
+const main = async (queries) => {
   let index = 1
 
   await initialBrowser()
@@ -16,4 +13,9 @@ const main = async () => {
   await resetBrowser()
 }
 
-main()
+try {
+  const queries = fs.readFileSync('./keywords.parsed', 'utf8')
+  main(queries.split('\n'))
+} catch (error) {
+  console.error('parse 명령어를 먼저 수행해주세요.')
+}

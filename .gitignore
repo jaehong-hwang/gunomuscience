@@ -1,3 +1,4 @@
 result/*.png
 keywords
+keywords.parsed
 node_modules

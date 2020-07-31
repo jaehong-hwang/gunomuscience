@@ -4,7 +4,9 @@
   "description": "download image by words",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "parse": "node parse",
+    "download": "node index",
+    "start": "node parse && node index"
   },
   "author": "dev.jaehong@gmail.com",
   "license": "MIT",
