@@ -9,7 +9,3 @@
     name: 'gunomuscience'
   }
 </script>
-
-<style>
-  /* CSS */
-</style>
