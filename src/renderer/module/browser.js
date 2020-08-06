@@ -110,10 +110,10 @@ const findImageFromThumbnail = async () => {
   let repeat = 0
 
   do {
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(200)
     imageLink = await imageHandler.getAttribute('src')
 
-    if (++repeat === 10) return false
+    if (++repeat === 5) return false
   } while (imageLink.split(':')[0] === 'data')
 
   return imageLink
