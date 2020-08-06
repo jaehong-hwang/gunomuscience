@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 import mecab from '@/module/mecab'
-import { imageLinksBySearch } from '@/module/browser'
 
 Vue.use(Vuex)
 
@@ -24,11 +23,10 @@ export default new Vuex.Store({
         ...keyword
       })
     },
-    setKeyword (state, { key, keyword, links }) {
+    setKeyword (state, { key, keyword }) {
       Vue.set(state.keywords, key, {
         ...state.keywords[key],
-        keyword,
-        links
+        ...keyword
       })
 
       console.log('set keyword complete')
@@ -78,9 +76,14 @@ export default new Vuex.Store({
         comment
       })
     },
-    async setKeyword (context, { key, keyword }) {
-      const links = await imageLinksBySearch(keyword)
-      context.commit('setKeyword', { key, keyword, links })
+    setKeyword (context, { key, keyword }) {
+      context.commit('setKeyword', { key, keyword })
+    },
+    setLinks (context, { key, links }) {
+      context.commit('setKeyword', {
+        key,
+        keyword: { links }
+      })
     }
   },
   plugins: [

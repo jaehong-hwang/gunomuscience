@@ -11,6 +11,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { imageLinksBySearch } from '@/module/browser'
 
 export default {
   created () {
@@ -18,21 +19,28 @@ export default {
   },
   data () {
     return {
-      contents: ''
+      contents: '',
+      loading: 0,
     }
   },
   computed: {
-    ...mapState(['scenario'])
+    ...mapState(['scenario', 'keywords'])
   },
   methods: {
-    submit () {
+    async submit () {
       this.setScenario(this.contents)
       this.setKeywordsByMorpheme()
+      for (this.loading = 0; this.loading < this.keywords.length; this.loading++) {
+        const keyword = this.keywords[this.loading]
+        const links = await imageLinksBySearch(keyword.keyword)
+        this.setLinks(this.loading, links)
+      }
       this.$router.push('/preview')
     },
     ...mapActions([
       'setScenario',
-      'setKeywordsByMorpheme'
+      'setKeywordsByMorpheme',
+      'setLinks'
     ])
   }
 }

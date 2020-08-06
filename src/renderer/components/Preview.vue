@@ -26,6 +26,7 @@
 <script>
 import PreviewImage from './PreviewImage'
 import { mapState, mapActions } from 'vuex'
+import { imageLinksBySearch } from '@/module/browser'
 
 export default {
   components: {
@@ -35,11 +36,15 @@ export default {
     ...mapState(['keywords'])
   },
   methods: {
-    updateKeywrod ($event, key) {
+    async updateKeywrod ($event, key) {
       const keyword = $event.target.value
+      const links = await imageLinksBySearch(keyword)
       this.setKeyword({
         key,
-        keyword
+        keyword: {
+          keyword,
+          links
+        }
       })
     },
     ...mapActions([

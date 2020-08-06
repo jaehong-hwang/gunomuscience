@@ -43,6 +43,9 @@ const imageLinksBySearch = async (query, count = 5) => {
     console.error('query is undefined. try again')
     return
   }
+
+  console.log('search image by query: ' + query)
+
   await page.waitForSelector('#sf')
   await page.focus('[name=q]')
   await page.fill('[name=q]', query)
