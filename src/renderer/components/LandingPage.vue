@@ -41,7 +41,7 @@ export default {
       for (this.loading = 0; this.loading < this.keywords.length; this.loading++) {
         const keyword = this.keywords[this.loading]
         const links = await imageLinksBySearch(keyword.keyword)
-        this.setLinks(this.loading, links)
+        this.setLinks({ key: this.loading, links })
       }
       this.showingLoading = false
 
