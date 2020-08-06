@@ -16,6 +16,9 @@ export default new Vuex.Store({
     setScenario (state, scenario) {
       state.scenario = scenario
     },
+    clearKeywords (state) {
+      state.keywords = []
+    },
     addKeyword (state, keyword) {
       state.keywords.push({
         ...keyword
@@ -33,6 +36,7 @@ export default new Vuex.Store({
   },
   actions: {
     setScenario ({ commit }, scenario) {
+      commit('clearKeywords')
       commit('setScenario', scenario)
     },
     setKeywordsByMorpheme ({ commit, state }) {
