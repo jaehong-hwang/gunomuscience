@@ -6,10 +6,12 @@
     <b-button type="is-primary" size="is-medium" expanded @click="submit">
       형태소 분석
     </b-button>
+    <loading v-if="showingLoading" :loading="loading" :size="keywords.length" />
   </section>
 </template>
 
 <script>
+import Loading from './Loading'
 import { mapState, mapActions } from 'vuex'
 import { imageLinksBySearch } from '@/module/browser'
 
@@ -17,10 +19,14 @@ export default {
   created () {
     this.contents = this.scenario
   },
+  components: {
+    Loading
+  },
   data () {
     return {
       contents: '',
       loading: 0,
+      showingLoading: false
     }
   },
   computed: {
@@ -30,11 +36,15 @@ export default {
     async submit () {
       this.setScenario(this.contents)
       this.setKeywordsByMorpheme()
+
+      this.showingLoading = true
       for (this.loading = 0; this.loading < this.keywords.length; this.loading++) {
         const keyword = this.keywords[this.loading]
         const links = await imageLinksBySearch(keyword.keyword)
         this.setLinks(this.loading, links)
       }
+      this.showingLoading = false
+
       this.$router.push('/preview')
     },
     ...mapActions([
