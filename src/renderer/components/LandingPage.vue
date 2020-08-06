@@ -27,10 +27,12 @@ export default {
   methods: {
     submit () {
       this.setScenario(this.contents)
+      this.setKeywordsByMorpheme()
       this.$router.push('/preview')
     },
     ...mapActions([
-      'setScenario'
+      'setScenario',
+      'setKeywordsByMorpheme'
     ])
   }
 }

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 import mecab from '@/module/mecab'
+import { imageLinksBySearch } from '@/module/browser'
 
 Vue.use(Vuex)
 
@@ -15,17 +16,32 @@ export default new Vuex.Store({
     setScenario (state, scenario) {
       state.scenario = scenario
     },
-    setKeyword (state, key, keywrod) {
-      state.keywords[key].keywrod = keywrod
+    addKeyword (state, keyword) {
+      state.keywords.push({
+        ...keyword
+      })
     },
-    setKeywordsByMorpheme (state) {
+    setKeyword (state, { key, keyword, links }) {
+      Vue.set(state.keywords, key, {
+        ...state.keywords[key],
+        keyword,
+        links
+      })
+
+      console.log('set keyword complete')
+    }
+  },
+  actions: {
+    setScenario ({ commit }, scenario) {
+      commit('setScenario', scenario)
+    },
+    setKeywordsByMorpheme ({ commit, state }) {
       const text = state.scenario.split('\n').filter(v => {
         v = v.trim()
         return v[0] !== '#' && v !== ''
       }).join('\n')
 
       const results = mecab.pos(text)
-      let keywords = []
       let comment = []
       let keyword = ''
 
@@ -42,7 +58,7 @@ export default new Vuex.Store({
             comment = []
 
             keyword += (keyword !== '' ? ' ' : '') + morpheme[0]
-            keywords.push({
+            commit('addKeyword', {
               keyword,
               comment: keywordsComment
             })
@@ -53,18 +69,14 @@ export default new Vuex.Store({
       }
 
       comment = comment.join(' ')
-      keywords.push({
+      commit('addKeyword', {
         keyword: comment,
         comment
       })
-
-      state.keywords = keywords
-    }
-  },
-  actions: {
-    setScenario (context, scenario) {
-      context.commit('setScenario', scenario)
-      context.commit('setKeywordsByMorpheme')
+    },
+    async setKeyword (context, { key, keyword }) {
+      const links = await imageLinksBySearch(keyword)
+      context.commit('setKeyword', { key, keyword, links })
     }
   },
   plugins: [

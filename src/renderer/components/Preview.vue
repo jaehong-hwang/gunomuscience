@@ -9,6 +9,13 @@
         />
         <p class="fields-comment">{{ keyword.comment }}</p>
       </div>
+      <div class="images">
+        <preview-image
+          v-for="(link, ikey) in keyword.links"
+          :key="ikey"
+          :src="link"
+        />
+      </div>
     </div>
     <router-link :to="{ name: 'landing-page' }">
         <b-button type="is-warning">이전</b-button>
@@ -17,16 +24,23 @@
 </template>
 
 <script>
+import PreviewImage from './PreviewImage'
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  components: {
+    PreviewImage
+  },
   computed: {
     ...mapState(['keywords'])
   },
   methods: {
     updateKeywrod ($event, key) {
-      const val = $event.target.value
-      this.setKeyword(key, val)
+      const keyword = $event.target.value
+      this.setKeyword({
+        key,
+        keyword
+      })
     },
     ...mapActions([
       'setKeyword'
@@ -50,6 +64,15 @@ export default {
   &-comment {
     font-size: 14px;
     color: #555;
+  }
+}
+
+.images {
+  display: flex;
+
+  img {
+    width: 50px;
+    height: 50px;
   }
 }
 </style>

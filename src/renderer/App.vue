@@ -5,7 +5,15 @@
 </template>
 
 <script>
+  import { initialBrowser, resetBrowser } from '@/module/browser'
+
   export default {
-    name: 'gunomuscience'
+    name: 'gunomuscience',
+    async beforeCreate () {
+      await initialBrowser()
+    },
+    async beforeDestroy () {
+      await resetBrowser()
+    }
   }
 </script>

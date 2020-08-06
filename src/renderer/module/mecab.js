@@ -61,7 +61,7 @@ const nouns = text => {
   return parse(text, 'nouns')
 }
 
-module.exports = {
+export default {
   pos,
   morphs,
   nouns
