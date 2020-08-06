@@ -1,5 +1,8 @@
 <template>
   <section id="wrapper">
+    <router-link :to="{ name: 'landing-page' }">
+        <b-button type="is-warning">이전</b-button>
+    </router-link>
     <div v-for="(keyword, key) in keywords" :key="key">
       <div class="fields">
         <b-input
@@ -17,9 +20,6 @@
         />
       </div>
     </div>
-    <router-link :to="{ name: 'landing-page' }">
-        <b-button type="is-warning">이전</b-button>
-    </router-link>
   </section>
 </template>
 
